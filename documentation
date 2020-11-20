@@ -1,0 +1,91 @@
+xState 
+
+  ! Make sure you understand React and how life cycle works before using this library
+
+Keywords:
+xComponent: 
+  I know we don't use xComponent anywhere but that's because it's renamed as Component on export.
+  this is what you extend to your components if you want to use xState.
+
+  import {Component} from './xState/xState';
+
+  class YourComponent extends Component {
+
+  }
+
+state:
+  xState works on a global object that is a table of all your xComponent's states called store.
+  So you're actually not directly accessing the react state itself.
+  
+  from here on out, this doc will refer to state as the xState state and not the react components' state.
+  It's just because this doc will refer to it more often.
+
+  Structure: 
+    store: {
+      xCompInstance: {
+        refresh(): () => {...}, // This fn runs setState of corresponding xCompInstance
+        state: {} // This is the state xState is using
+      }
+    }
+
+react state:
+  This is what we'll call react components's state. The OG state.
+
+store:
+  This is defined in the xState module so you won't or not suppose to directly access this.
+
+
+Developer Responsibilities
+  1. Naming ID's
+
+  * Unless you know what you're doing or how that thing works
+
+
+(p) = parameter
+
+xInit
+  Copies (p)state to store[this.id].state and react state.
+  This is a pure assignment which means everytime you use this. It replaces store[this.id].state and react state with the new one.
+  Which means you'll use this instead of plain assignment to react state.
+
+  none = this.xInit( state )
+
+  Parameters:
+    state - state object to be assigned to store[this.id].state
+
+
+xSet
+  Calls setState of the object with the specified id and with the specified state.
+  Stores (p)state to store[(p)id].state and calls store[(p)id].refresh() that runs the setState of referred component.
+  
+  none = this.xSet( id, state )
+
+  Parameters:
+
+    id -  (primitive string) id or (obj String) id or (obj xComponent) component that has an id
+
+    state - state object to be merged to state and ultimately returned by setState 
+
+xGet
+  state = this.xGet( id:optional )
+    
+  Parameters:
+
+    id -  primitive string id or String() instance id. 
+          (Optional) if omitted, id would be the this's id which will return it's own state.
+  
+  Return
+
+    state - State object. The one from store(see above). It returns the state
+
+
+
+xInit vs xSet
+  xInit is just a plain assignment and xSet merges states and rerenders component
+
+
+
+Future of this library
+  Probably none. But we'll see. :)
+
+  Might use keys instead of ids
