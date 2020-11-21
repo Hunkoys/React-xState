@@ -42,7 +42,7 @@ class xComponent extends React.Component {
 
     if (typeof id === 'string' || id instanceof String) {
       if (typeof store[id] !== 'undefined') {
-        store[id].state = { ...state };
+        store[id].state = { ...store[id].state, ...state };
         store[id].refresh();
       }
     }
@@ -51,6 +51,7 @@ class xComponent extends React.Component {
 
   xGet(id = this.xId) {
     if (typeof store[id] !== 'undefined') {
+      // console.log(store[id].state, id);
       if (typeof store[id].state !== 'undefined') return store[id].state;
     }
     return {};
